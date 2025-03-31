@@ -17,6 +17,8 @@ export async function GET() {
         await redis.connect();
         const data = await redis.get(REDIS_KEY);
         const messages: Message[] = data ? JSON.parse(data) : [];
+        return NextResponse.json(messages);
+        
     } catch (error) {
         console.error("Redis connection error:", error);
         return NextResponse.json({ error: "Failed to connect to Redis" }, { status: 500 });
