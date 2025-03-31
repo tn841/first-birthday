@@ -9,42 +9,49 @@ export interface Message {
   }
 
 const REDIS_KEY = "messages";
+const redis = createClient({ url: process.env.REDIS_URL });
 
 export async function GET() {
-    const redis = createClient({ url: process.env.REDIS_URL });
-    await redis.connect();
-    const data = await redis.get(REDIS_KEY);
-    const messages: Message[] = data ? JSON.parse(data) : [];
-
-    await redis.disconnect();
     
-    return NextResponse.json(data);
+    try{
+        await redis.connect();
+        const data = await redis.get(REDIS_KEY);
+        const messages: Message[] = data ? JSON.parse(data) : [];
+    } catch (error) {
+        console.error("Redis connection error:", error);
+        return NextResponse.json({ error: "Failed to connect to Redis" }, { status: 500 });
+    } finally {
+        await redis.disconnect();
+    }
 }
 
 export async function POST(request: Request) {
+    
+
     // 요청에서 데이터 추출
     const { name, message }: { name: string; message: string } = await request.json();
 
-    // Redis 클라이언트 생성 및 연결
-    const redis = createClient({
-      url: process.env.REDIS_URL, // Vercel 환경 변수에 Redis URL 설정
-      password: process.env.REDIS_PASSWORD, // Redis 비밀번호
-    });
-    await redis.connect();
+    try{
+        await redis.connect();
 
-    // Redis에서 기존 메시지 가져오기
-    const data = await redis.get(REDIS_KEY);
-    const messages: Message[] = data ? JSON.parse(data) : [];
+        // Redis에서 기존 메시지 가져오기
+        const data = await redis.get(REDIS_KEY);
+        const messages: Message[] = data ? JSON.parse(data) : [];
 
-    // 새로운 메시지 추가
-    const newMessage: Message = { name, message, timestamp: Date.now() };
-    messages.push(newMessage);
+        // 새로운 메시지 추가
+        const newMessage: Message = { name, message, timestamp: Date.now() };
+        messages.push(newMessage);
 
-    // Redis에 메시지 저장
-    await redis.set(REDIS_KEY, JSON.stringify(messages));
+        // Redis에 메시지 저장
+        await redis.set(REDIS_KEY, JSON.stringify(messages));
 
-    // Redis 연결 종료
+        return NextResponse.json(newMessage);
+    } catch( error){
+        console.error("Redis connection error:", error);
+        return NextResponse.json({ error: "Failed to connect to Redis" }, { status: 500 });
+    } finally {
+         // Redis 연결 종료
     await redis.disconnect();
-
-    return NextResponse.json(newMessage);
+    }
+    
 }
