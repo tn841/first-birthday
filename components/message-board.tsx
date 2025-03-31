@@ -13,7 +13,7 @@ export function MessageBoard() {
 
   useEffect(() => {
     const fetchMessages = async () => {
-      const res = await fetch("/api/messages");
+      const res = await fetch("/api/v2/messages");
       const data = await res.json();
       setMessages(data);
     }
@@ -25,7 +25,7 @@ export function MessageBoard() {
     if (name.trim() && message.trim()) {
       const newMessage = { name, message }
 
-      const res = await fetch("/api/messages", {
+      const res = await fetch("/api/v2/messages", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
