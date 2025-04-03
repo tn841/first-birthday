@@ -78,7 +78,7 @@ export async function DELETE(request: Request) {
 		
         const messages: Message[] = data ? JSON.parse(data) : [];
 		console.log(`req id = ${id}`)
-        const updatedMessages = messages.filter((msg) => String(msg.id) !== id);
+        const updatedMessages = messages.filter((msg) => String(msg.id) !== String(id));
 		console.log('>> delete : redis = ', JSON.stringify(data))
         await redis.set(REDIS_KEY, JSON.stringify(updatedMessages));
         return NextResponse.json({ success: true });
