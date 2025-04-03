@@ -55,8 +55,22 @@ export function MessageBoard() {
     }
   }
 
-  const handleDelete = (id: string) => {
-    setMessages(messages.filter((msg) => msg.id !== id))
+  const handleDelete = async (id: string) => {
+
+    const res = await fetch("/api/v2/messages", {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({id: id}),
+    });
+
+    if(res.ok){
+      setMessages(messages.filter((msg) => msg.id !== id))
+      setName("")
+      setMessage("")
+    }
+    
   }
 
   // 날짜 포맷팅 함수
