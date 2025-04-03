@@ -3,7 +3,7 @@
 import type React from "react"
 
 import { useEffect, useState } from "react"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Send, Trash2, Clock } from "lucide-react"
 import { formatDistanceToNow } from "date-fns"
 import { ko } from "date-fns/locale"
@@ -132,23 +132,30 @@ export function MessageBoard() {
           </div>
 
           <div className="space-y-4">
+          <AnimatePresence mode="popLayout">
             {messages.map((msg) => (
               <motion.div
                 key={msg.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5 }}
-                viewport={{ once: true }}
+                initial={{ opacity: 0, y: 20, scale: 0.95 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{
+                    opacity: 0,
+                    x: -100,
+                    scale: 0.8,
+                    transition: { duration: 0.3, ease: "easeInOut" },
+                  }}
+                  transition={{ duration: 0.4 }}
+                  layout
                 className="bg-white border border-pink-100 rounded-lg p-4 shadow-sm"
               >
                 <div className="flex justify-between items-start">
                   <p className="font-medium text-pink-600">{msg.name}</p>
                   <button
                     onClick={() => handleDelete(msg.id)}
-                    className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                    className="text-gray-400 hover:text-red-500 transition-colors p-1 group"
                     aria-label="메시지 삭제"
                   >
-                    <Trash2 size={16} />
+                    <Trash2 size={16} className="group-hover:scale-110 transition-transform" />
                   </button>
                 </div>
                 <p className="text-gray-700 my-2">{msg.message}</p>
@@ -160,6 +167,7 @@ export function MessageBoard() {
                 </div>
               </motion.div>
             ))}
+            </AnimatePresence>
           </div>
         </motion.div>
       </div>
