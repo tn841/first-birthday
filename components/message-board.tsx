@@ -4,12 +4,23 @@ import type React from "react"
 
 import { useEffect, useState } from "react"
 import { motion } from "framer-motion"
-import { Send } from "lucide-react"
+import { Send, Trash2, Clock } from "lucide-react"
+import { formatDistanceToNow } from "date-fns"
+import { ko } from "date-fns/locale"
+
+
+// 메시지 타입 정의
+interface Message {
+  id: string
+  name: string
+  message: string
+  timestamp: Date
+}
 
 export function MessageBoard() {
   const [name, setName] = useState("")
   const [message, setMessage] = useState("")
-  const [messages, setMessages] = useState<{name: string; message: string}[]>([])
+  const [messages, setMessages] = useState<Message[]>([])
 
   useEffect(() => {
     const fetchMessages = async () => {
@@ -34,13 +45,23 @@ export function MessageBoard() {
       });
 
       if(res.ok){
-        setMessages([...messages, { name, message }])
+        const createdMessage: Message = await res.json(); // POST 응답 데이터 타입 적용
+        setMessages([...messages, createdMessage])
         setName("")
         setMessage("")
       }
 
       
     }
+  }
+
+  const handleDelete = (id: string) => {
+    setMessages(messages.filter((msg) => msg.id !== id))
+  }
+
+  // 날짜 포맷팅 함수
+  const formatDate = (date: Date) => {
+    return `${date.getFullYear()}년 ${date.getMonth() + 1}월 ${date.getDate()}일 ${date.getHours()}:${date.getMinutes().toString().padStart(2, "0")}`
   }
 
   return (
@@ -97,17 +118,32 @@ export function MessageBoard() {
           </div>
 
           <div className="space-y-4">
-            {messages.map((msg, index) => (
+            {messages.map((msg) => (
               <motion.div
-                key={index}
+                key={msg.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                transition={{ duration: 0.5 }}
                 viewport={{ once: true }}
                 className="bg-white border border-pink-100 rounded-lg p-4 shadow-sm"
               >
-                <p className="font-medium text-pink-600 mb-1">{msg.name}</p>
-                <p className="text-gray-700">{msg.message}</p>
+                <div className="flex justify-between items-start">
+                  <p className="font-medium text-pink-600">{msg.name}</p>
+                  <button
+                    onClick={() => handleDelete(msg.id)}
+                    className="text-gray-400 hover:text-red-500 transition-colors p-1"
+                    aria-label="메시지 삭제"
+                  >
+                    <Trash2 size={16} />
+                  </button>
+                </div>
+                <p className="text-gray-700 my-2">{msg.message}</p>
+                <div className="flex items-center text-xs text-gray-500 mt-2">
+                  <Clock size={12} className="mr-1" />
+                  <time dateTime={msg.timestamp.toISOString()}>
+                    {formatDate(msg.timestamp)} ({formatDistanceToNow(msg.timestamp, { addSuffix: true, locale: ko })})
+                  </time>
+                </div>
               </motion.div>
             ))}
           </div>
