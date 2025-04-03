@@ -140,8 +140,8 @@ export function MessageBoard() {
                 <p className="text-gray-700 my-2">{msg.message}</p>
                 <div className="flex items-center text-xs text-gray-500 mt-2">
                   <Clock size={12} className="mr-1" />
-                  <time dateTime={msg.timestamp.toISOString()}>
-                    {formatDate(msg.timestamp)} ({formatDistanceToNow(msg.timestamp, { addSuffix: true, locale: ko })})
+                  <time dateTime={new Date(msg.timestamp).toISOString()}>
+                    {formatDate(new Date(msg.timestamp))} ({formatDistanceToNow(msg.timestamp, { addSuffix: true, locale: ko })})
                   </time>
                 </div>
               </motion.div>
