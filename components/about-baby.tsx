@@ -23,7 +23,13 @@ export function AboutBaby() {
                   <span className="font-medium">이름:</span> 김세아
                 </p>
                 <p className="text-lg text-gray-700">
-                  <span className="font-medium">생년월일:</span> 2024년 7월 25일
+                  <span className="font-medium">태어난 날:</span> 2024년 7월 25일 11:58AM
+                </p>
+                <p className="text-lg text-gray-700">
+                  <span className="font-medium">태어난 몸무게:</span> 3.43kg
+                </p>
+                <p className="text-lg text-gray-700">
+                  <span className="font-medium">태어난 키:</span> 50cm
                 </p>
                 <p className="text-lg text-gray-700">
                   <span className="font-medium">아빠:</span> 김수민
@@ -35,7 +41,7 @@ export function AboutBaby() {
                   <span className="font-medium">특기:</span> 엄마 찾기, 엎드러뻗쳐
                 </p> */}
                 <p className="text-lg text-gray-700">
-                  <span className="font-medium">좋아하는것:</span> 엄마, 수박
+                  <span className="font-medium">좋아하는것:</span> 엄마, 수박, 블루베리
                 </p>
               </div>
 

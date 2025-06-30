@@ -21,6 +21,9 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap"
           rel="stylesheet"
         />
+        <meta property="og:title" content="세아 첫 돌 기념" />
+        <meta property="og:description" content="세아의 첫 번째 생일을 축하합니다" />
+        <meta property="og:image" content="/02.jpg" />
       </head>
       <body className="font-noto">{children}</body>
     </html>
