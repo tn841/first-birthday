@@ -11,9 +11,9 @@ export default function Home() {
     <main className="min-h-screen bg-gradient-to-b from-pink-50 to-purple-50">
       <BirthdayHeader />
       <AboutBaby />
+      <Invitation />
       <PhotoGallery />
       {/* <Timeline /> */}
-      <Invitation />
       <MessageBoard />
       <Footer />
     </main>

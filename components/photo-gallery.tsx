@@ -14,7 +14,7 @@ export function PhotoGallery() {
     { src: "/003.jpg", alt: "14일" },
     { src: "/004.jpg", alt: "아빠랑 운동하기" },
     { src: "/006.jpg", alt: "아빠랑 울기" },
-    { src: "/007.jpg", alt: "50일" },
+    { src: "/007.png", alt: "50일" },
     { src: "/008.jpg", alt: "첫외출" },
     { src: "/009.jpg", alt: "100일" },
     { src: "/010.jpg", alt: "150일" },
