@@ -12,7 +12,7 @@ export default function Home() {
       <BirthdayHeader />
       <AboutBaby />
       <PhotoGallery />
-      <Timeline />
+      {/* <Timeline /> */}
       <Invitation />
       <MessageBoard />
       <Footer />

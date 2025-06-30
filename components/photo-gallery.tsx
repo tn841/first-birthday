@@ -9,12 +9,24 @@ export function PhotoGallery() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null)
 
   const photos = [
-    { src: "/01.jpg", alt: "신생아 시절" },
-    { src: "/02.jpg", alt: "100일" },
-    { src: "/03.jpg", alt: "첫 웃음" },
-    { src: "/04.jpg", alt: "첫 이유식" },
-    { src: "/05.jpg", alt: "첫 기어가기" },
-    { src: "/06.jpg", alt: "첫 돌 촬영" },
+    { src: "/001.jpg", alt: "태어난 날" },
+    { src: "/002.jpg", alt: "산후조리원에서" },
+    { src: "/003.jpg", alt: "14일" },
+    { src: "/004.jpg", alt: "아빠랑 운동하기" },
+    { src: "/006.jpg", alt: "아빠랑 울기" },
+    { src: "/007.jpg", alt: "50일" },
+    { src: "/008.jpg", alt: "첫외출" },
+    { src: "/009.jpg", alt: "100일" },
+    { src: "/010.jpg", alt: "150일" },
+    { src: "/011.jpg", alt: "첫 침대" },
+    { src: "/012.jpg", alt: "200일" },
+    { src: "/013.jpg", alt: "200일 즈음" },
+    { src: "/014.jpg", alt: "300일" },
+    { src: "/015.jpg", alt: "엄마랑 세아랑 꽃이랑" },
+    { src: "/016.jpg", alt: "어린이 대공원 나들이" },
+    { src: "/017.jpg", alt: "할머니랑 카트 타기" },
+    { src: "/018.jpg", alt: "맛잇는 수박" },
+    { src: "/019.jpg", alt: "퇴근한 아빠랑" },
   ]
 
   return (

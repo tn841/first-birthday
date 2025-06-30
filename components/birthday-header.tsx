@@ -68,7 +68,7 @@ export function BirthdayHeader() {
         </div>
 
         <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.8, delay: 0.6 }}>
-          <p className="text-lg text-gray-700">2024년 7월 25일</p>
+          {/* <p className="text-lg text-gray-700">2024년 7월 25일</p> */}
         </motion.div>
       </div>
     </section>

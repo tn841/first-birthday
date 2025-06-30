@@ -31,11 +31,11 @@ export function AboutBaby() {
                 <p className="text-lg text-gray-700">
                   <span className="font-medium">엄마:</span> 박지연
                 </p>
-                <p className="text-lg text-gray-700">
+                {/* <p className="text-lg text-gray-700">
                   <span className="font-medium">특기:</span> 엄마 찾기, 엎드러뻗쳐
-                </p>
+                </p> */}
                 <p className="text-lg text-gray-700">
-                  <span className="font-medium">좋아하는것:</span> 엄마
+                  <span className="font-medium">좋아하는것:</span> 엄마, 수박
                 </p>
               </div>
 

@@ -24,11 +24,24 @@ export function MessageBoard() {
 
   useEffect(() => {
     const fetchMessages = async () => {
+      try {
       const res = await fetch("/api/v2/messages");
+      if (!res.ok) {
+        throw new Error(`HTTP error! status: ${res}`);
+      }
       const data = await res.json();
+      console.log(data);
       setMessages(data);
+      } catch (error) {
+      console.error("메시지 불러오기 실패:", error);
+      setMessages([]); // 에러 발생 시 빈 배열로 초기화
+      }
     }
-    fetchMessages();
+
+    fetchMessages().catch((error) => {
+      console.error("메시지 불러오기 실패:", error);
+      setMessages([]); // 에러 발생 시 빈 배열로 초기화
+    });
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -133,40 +146,51 @@ export function MessageBoard() {
 
           <div className="space-y-4">
           <AnimatePresence mode="popLayout">
-            {messages.map((msg) => (
+            {messages.length === 0 ? (
+              <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
+              className="text-center text-gray-500"
+              >
+              아직 메시지가 없습니다. 첫 번째 메시지를 남겨보세요!
+              </motion.div>
+            ) : (
+              messages.map((msg) => (
               <motion.div
                 key={msg.id}
                 initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{
-                    opacity: 0,
-                    x: -100,
-                    scale: 0.8,
-                    transition: { duration: 0.3, ease: "easeInOut" },
-                  }}
-                  transition={{ duration: 0.4 }}
-                  layout
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{
+                opacity: 0,
+                x: -100,
+                scale: 0.8,
+                transition: { duration: 0.3, ease: "easeInOut" },
+                }}
+                transition={{ duration: 0.4 }}
+                layout
                 className="bg-white border border-pink-100 rounded-lg p-4 shadow-sm"
               >
                 <div className="flex justify-between items-start">
-                  <p className="font-medium text-pink-600">{msg.name}</p>
-                  <button
-                    onClick={() => handleDelete(msg.id)}
-                    className="text-gray-400 hover:text-red-500 transition-colors p-1 group"
-                    aria-label="메시지 삭제"
-                  >
-                    <Trash2 size={16} className="group-hover:scale-110 transition-transform" />
-                  </button>
+                <p className="font-medium text-pink-600">{msg.name}</p>
+                <button
+                  onClick={() => handleDelete(msg.id)}
+                  className="text-gray-400 hover:text-red-500 transition-colors p-1 group"
+                  aria-label="메시지 삭제"
+                >
+                  <Trash2 size={16} className="group-hover:scale-110 transition-transform" />
+                </button>
                 </div>
                 <p className="text-gray-700 my-2">{msg.message}</p>
                 <div className="flex items-center text-xs text-gray-500 mt-2">
-                  <Clock size={12} className="mr-1" />
-                  <time dateTime={new Date(msg.timestamp).toISOString()}>
-                    {formatDate(new Date(msg.timestamp))} ({formatDistanceToNow(msg.timestamp, { addSuffix: true, locale: ko })})
-                  </time>
+                <Clock size={12} className="mr-1" />
+                <time dateTime={new Date(msg.timestamp).toISOString()}>
+                  {formatDate(new Date(msg.timestamp))} ({formatDistanceToNow(msg.timestamp, { addSuffix: true, locale: ko })})
+                </time>
                 </div>
               </motion.div>
-            ))}
+              ))
+            )}
             </AnimatePresence>
           </div>
         </motion.div>
